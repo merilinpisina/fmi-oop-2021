@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <cassert>
 
 template <typename T>
 class MaxValue {
@@ -66,6 +67,8 @@ public:
         std::cout << "FN: " << fn << "; AGE: " << age << "; NAME: "<< (name != nullptr ? name : "Unknown") << std::endl; 
     }
 
+    friend std::ostream& operator<< (std::ostream& out, const Student& item);
+
 private:
     unsigned int fn, age;
     char* name;
@@ -118,17 +121,20 @@ public:
         }
 
         this->data[size++] = newElement; // operator = of T
+        // this->data[size] = newElement;
+        // size = size + 1;
     }
 
     S getSize() const {
         return this->size;
     }
 
-    // void print() const {
-    //     for (int i = 0; i < size; ++i) {
-    //         this->data[i].print(); // all classes that have the function void print()
-    //     }
-    // }
+    // operator[], at()
+    T& operator[](int index);
+    const T& operator[](int index) const; // priority
+
+    friend std::ostream& operator<< (std::ostream& out, const DynamicArray& item);
+    // friend std::istream& operator>> (std::istream& in, DynamicArray& item);
 
 private:
     S size, capacity;
@@ -215,7 +221,7 @@ int main() {
     group.addElement(st1);
     group.addElement(st2);
     std::cout << group.getSize() <<std::endl;
-    //group.print();
+    std::cout << group;
 
     DynamicArray<> defaultArray; // default dynamic array
 
@@ -225,4 +231,29 @@ int main() {
     intArray.addElement(b);
 
     return 0; // Destructor for st*
+}
+
+template <typename T, typename S>
+std::ostream& operator<< (std::ostream& out, const DynamicArray<T, S>& item) {
+    for (int i = 0; i < item.size; ++i) {
+        out << item[i]; // // == item.data[index]
+    }
+    return out;
+}
+
+std::ostream& operator<< (std::ostream& out, const Student& item) {
+    out << "FN: " << item.fn << "; AGE: " << item.age << "; NAME: "<< (item.name != nullptr ? item.name : "Unknown") << std::endl;
+    return out;
+}
+
+template <typename T, typename S>
+T& DynamicArray<T, S>::operator[](int index) {
+    assert(index >= 0 && index < this->size);
+    return this->data[index];
+}
+
+template <typename T, typename S>
+const T& DynamicArray<T, S>::operator[](int index) const {
+    assert(index >= 0 && index < this->size);
+    return this->data[index];
 }
