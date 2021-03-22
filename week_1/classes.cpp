@@ -25,13 +25,18 @@ T max(T a, T b)
 class Student {
 public:
 
+    // Student() = default; //explicit
+    // Student() {
+    //     name = "Unknown";
+    // }
+
     // BIG 4
     // constructor
     // destructor
     // operator=
     // copy constructor
 
-    Student(unsigned int fn_, unsigned int age_, char* name_) : fn(fn_), age(age_) {
+    Student(const unsigned int fn_, const unsigned int age_, const char* name_) : fn(fn_), age(age_) {
         if (name_ != nullptr) {
             int length = std::strlen(name_);
             name = new (std::nothrow) char[length+1];
@@ -43,6 +48,9 @@ public:
             }
         }
     }
+
+    // Student(const Student& other) = delete;
+    // Student& operator=(const Student& other) = delete;
 
     Student(const Student& other) {
         this->copy(other);
@@ -56,6 +64,8 @@ public:
         this->copy(other);
         return *this;
     }
+
+    // ~Student() = default;
 
     ~Student() {
         if (name != nullptr) {
@@ -131,7 +141,7 @@ public:
 
     // operator[], at()
     T& operator[](int index);
-    const T& operator[](int index) const; // priority
+    const T& operator[](const int index) const; // priority
 
     friend std::ostream& operator<< (std::ostream& out, const DynamicArray& item);
     // friend std::istream& operator>> (std::istream& in, DynamicArray& item);
@@ -253,7 +263,7 @@ T& DynamicArray<T, S>::operator[](int index) {
 }
 
 template <typename T, typename S>
-const T& DynamicArray<T, S>::operator[](int index) const {
-    assert(index >= 0 && index < this->size);
+const T& DynamicArray<T, S>::operator[](const int index) const {
+    assert(index >= 0 && index < this->size && data != nullptr);
     return this->data[index];
 }
