@@ -26,9 +26,8 @@ class Student {
 public:
 
     // Student() = default; //explicit
-    // Student() {
-    //     name = "Unknown";
-    // }
+    // Student() = delete;
+    // Student() : fn(0), age(18), name("Unknown") {}
 
     // BIG 4
     // constructor
@@ -36,7 +35,8 @@ public:
     // operator=
     // copy constructor
 
-    Student(const unsigned int fn_, const unsigned int age_, const char* name_) : fn(fn_), age(age_) {
+    // Default constructor & constructor with parameters
+    Student(const unsigned int fn_ = 0, const unsigned int age_ = 18, const char* name_ = "Unknown") : fn(fn_), age(age_) {
         if (name_ != nullptr) {
             int length = std::strlen(name_);
             name = new (std::nothrow) char[length+1];
@@ -115,10 +115,14 @@ public:
     }
 
     DynamicArray& operator=(const DynamicArray& other) {
-        if (this->data != nullptr) {
-            this->destroy();
+        // THE FOLLOWING LINE SHOULD ALWAYS EXIST IN operator= 
+        if (this != &other) {
+            if (this->data != nullptr) {
+                this->destroy();
+            }
+            this->copy(other);
         }
-        this->copy(other);
+        return *this;
     }
 
     ~DynamicArray() {
@@ -216,6 +220,8 @@ int main() {
     // else {
     //     std::cout << "max = second" << std::endl;
     // }
+
+    // Student s; // default constructor
 
     Student st1(10000, 20, nullptr);
     Student st2(st1); // copy constructor
