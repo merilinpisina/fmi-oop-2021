@@ -23,7 +23,7 @@ Item& Item::operator=(const Item& other) {
 
 std::istream& operator >> (std::istream& in, Item& item) {
     //in >> item.name >> item.quantity >> item.price;
-    assert(!in.eof());
+    assert(!in.eof()); // assert fails => bug in code
     in.ignore();
     std::getline(in, item.name);
 
