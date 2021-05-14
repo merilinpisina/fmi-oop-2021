@@ -19,6 +19,13 @@ public:
     virtual ~Shape() {}
 
     virtual Shape *clone() const = 0;
+
+    // template <typename T>
+    // T* clone() const {
+    //     return new (std::nothrow) T(*this);
+    // }
+
+    // virtual std::unique_ptr<Shape> clone2() const = 0;
 };
 
 class Square : public Shape
@@ -62,6 +69,10 @@ public:
     {
         return new (std::nothrow) Square(*this);
     }
+
+    // virtual std::unique_ptr<Square> clone2() const {
+    //     return std::make_unique<Square>(*this);
+    // }
 
 private:
     double a;
@@ -108,6 +119,10 @@ public:
     {
         return new (std::nothrow) Triangle(*this);
     }
+
+    // virtual std::unique_ptr<Triangle> clone2() const {
+    //     return std::make_unique<Triangle>(*this);
+    // }
 
 private:
     double a, b, c, h_a;
@@ -222,8 +237,10 @@ private:
             {
             case SQUARE_ID:
             {
+                // Square a(2);
+                // Square* a_cloned = a.clone();
+
                 Square *new_square = dynamic_cast<Square *>(other.shapes[i]->clone());
-                // Square *new_square = new (std::nothrow) Square(Square(*other.shapes[i]));
                 if (new_square)
                 {
                     this->shapes.push_back(new_square);
