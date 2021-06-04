@@ -291,11 +291,44 @@ void testShapeVector()
     vec.print();
 }
 
+void testExceptions()
+{
+    const char* testExc = nullptr;
+    ShapeVec vec(testExc);
+    // vec.print();
+    // throw 10; // exception(10)
+              // throw std::exception(10);
+}
+
 int main()
 {
 
     // testInterface();
-    testShapeVector();
+    // testShapeVector();
+    try
+    {
+        testExceptions();
+    }
+    catch (std::bad_alloc &e)
+    {
+        std::cout << "Bad allocation exception occured" << std::endl;
+        // handle exception
+    }
+    catch (std::invalid_argument &e)
+    {
+        std::cout << "Invalid argument: " << e.what() << std::endl;
+        // handle exception
+    }
+    catch (std::exception &e) // any type exception
+    {
+        std::cout << e.what() << std::endl;
+        // handle exception
+    }
+    catch (...) // any type exception
+    {
+        std::cout << "An exception occured" << std::endl;
+        // handle exception
+    }
 
     return 0;
 }

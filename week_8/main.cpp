@@ -10,6 +10,8 @@ void testInheritance() {
     Student student("Iliya", 20, 45);
     student.sayHello();
 
+    // Person* studentToPerson = static_cast<Person*>(&student);
+
     Teacher teacher("Vlado R", 45);
     teacher.sayHello();
 
